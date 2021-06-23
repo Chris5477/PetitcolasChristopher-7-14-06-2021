@@ -1,0 +1,27 @@
+.no-result{
+    margin-top: 100px;
+    font-size: 34px;
+}
+
+.field-ingredient{
+    display: inline;
+}
+
+.refresh{
+    &--ingredient{
+        background-color: $input_ingredient;
+        display: block;
+        @include size-container(30%, auto);
+    }
+    &--appliance{
+        background-color: $input-appliance;
+    }
+    &--ustencil{
+        background-color: $input-ustensils;
+    }
+}
+
+.grow-input{
+    display: block;
+    width: 100%;
+}

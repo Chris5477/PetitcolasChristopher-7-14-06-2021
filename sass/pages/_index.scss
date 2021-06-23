@@ -8,7 +8,7 @@
     @include size-container(100%,auto);
 }
 
-.form_recipe{
+.search-zone{
     @include size-container(100%,auto);
     .item{
         @include size-container(100%, 60px);
@@ -38,8 +38,9 @@
     text-align: center;
     font-size: 18px;
     font-weight: bold;
+    border: none;
     border-radius: 5px;
-    margin-left: 25px;
+    margin-right: 25px;
 &--ingredient{
     background-color: $input_ingredient;
 }&--appareil{
