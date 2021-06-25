@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients, toSuggestIngredient } from "./function.js";
+import { createElement, setIngredients, addTags} from "./function.js";
 import { recipes } from "./recipe.js";
 
 //Entree => valeur utilisateur : Sortie => une liste (array) -> recettes filtrées
@@ -26,14 +26,15 @@ export const searchRecipe = (e) => {
     for (let k = 0; k < currentRecipe.ingredients.length; k++) {
         const element = currentRecipe.ingredients[k].ingredient;
         if(element.toLowerCase().includes(inputUser.toLowerCase())){
-            recipeFilter = [...recipeFilter, currentRecipe]
+            recipeFilter = [...recipeFilter, currentRecipe];
+            ELEMENTHTML.choiceIngredient.innerHTML+=`<li>${currentRecipe.ingredients[k].ingredient}</li>`
+          }
         }
-    }
-    
-  }
-  createElement(recipeFilter)
-  setIngredients(recipeFilter)
-  toSuggestIngredient(recipeFilter)
+        
+      }
+      createElement(recipeFilter)
+      setIngredients(recipeFilter);
+      [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food.innerHTML)))
 };
 
 

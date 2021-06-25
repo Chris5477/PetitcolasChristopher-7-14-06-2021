@@ -56,6 +56,21 @@
     flex-wrap: wrap;
 }
 
+.list-ingredient{
+    width: 30%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #f2f2f2;
+    border: 2px solid black;
+    li{
+        padding: 10px;
+        width: 30%
+
+    }
+}
+
 .card_recipe{
     @include size-container(30%, 350px);
     display: grid;

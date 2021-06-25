@@ -34,16 +34,9 @@ export const setIngredients = (array) => {
     }
 }
 
-export const toSuggestIngredient = (array) => {
-    ELEMENTHTML.inputIngredient.classList.add("refresh--ingredient")
-    
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array[i].ingredients.length; j++) {
-        //    ELEMENTHTML.inputIngredient.innerHTML+=`<li>${array[i].ingredients[j].ingredient}</li>`
-            
-        }
-        
-    }    
-    
+
+export const addTags = (element) => {
+    ELEMENTHTML.allTags.innerHTML=element;
+    ELEMENTHTML.choiceIngredient.innerHTML=""
 }
 

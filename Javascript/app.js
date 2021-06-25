@@ -6,5 +6,5 @@ import { searchRecipe } from "./algo1.js"
 createElement(recipes)
 setIngredients()
 
-ELEMENTHTML.mainSearch.addEventListener("input", (e) => searchRecipe(e))
+ELEMENTHTML.mainSearch.addEventListener("change", (e) => searchRecipe(e))
 
