@@ -33,3 +33,7 @@ export const setIngredients = (array) => {
     }
 }
 
+export const addTag= (el) => {
+    ELEMENTHTML.tags.innerHTML=el
+    ELEMENTHTML.restIngredient.innerHTML=""
+}

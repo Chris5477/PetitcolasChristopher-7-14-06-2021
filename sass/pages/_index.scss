@@ -55,6 +55,23 @@
     flex-wrap: wrap;
 }
 
+.wxc{
+    width: 50%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #f2f2f2;
+    border: 2px solid black;
+    li{
+        display: inline-block;
+        padding: 10px;
+        width: 40%;
+
+    }
+
+}
+
 .card_recipe{
     @include size-container(30%, 350px);
     display: grid;

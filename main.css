@@ -16,6 +16,10 @@ body {
   display: none;
 }
 
+li {
+  list-style-type: none;
+}
+
 .no-result {
   font-size: 28px;
   margin-top: 100px;
@@ -89,6 +93,21 @@ body {
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.wxc {
+  width: 50%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #f2f2f2;
+  border: 2px solid black;
+}
+.wxc li {
+  display: inline-block;
+  padding: 10px;
+  width: 40%;
 }
 
 .card_recipe {

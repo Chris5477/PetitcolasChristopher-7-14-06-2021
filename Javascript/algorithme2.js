@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients } from "./function.js";
+import { createElement, setIngredients, addTag } from "./function.js";
 import { recipes } from "./recipe.js";
 
 export const searchRecipe = (e) => {
@@ -16,14 +16,46 @@ export const searchRecipe = (e) => {
   );
 
   for (const key in recipes) {
-    const vvv = recipes[key];
-    const www = recipes[key].ingredients;
-    for (const index in www) {
-      if (www[index].ingredient.toLowerCase().includes(inputUser.toLowerCase())) {
-        recipeFilter = [...recipeFilter, vvv];
+    const resultRecipe = recipes[key];
+    const listIngredient = recipes[key].ingredients;
+    for (const index in listIngredient) {
+      if (listIngredient[index].ingredient.toLowerCase().includes(inputUser.toLowerCase())) {
+        recipeFilter = [...recipeFilter, resultRecipe];
+        ELEMENTHTML.restIngredient.innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
+      }
+    }
+  }
+  
+  createElement(recipeFilter);
+  setIngredients(recipeFilter);
+  [...document.querySelectorAll("li")].forEach(li => (li.addEventListener("click",() => addTag(li.innerHTML))))
+  
+  
+
+};
+
+export const continueSearch = (array) => {
+  const inputUser = e.target.value;
+
+  let recipeFilter = [];
+
+  recipeFilter = array.filter(
+    (item) => item.name.toLowerCase().match(inputUser.toLowerCase()) || item.description.toLowerCase().match(inputUser.toLowerCase())
+  );
+
+  for (const key in array) {
+    const resultRecipe = array[key];
+    const listIngredient = array[key].ingredients;
+    for (const index in listIngredient) {
+      if (listIngredient[index].ingredient.toLowerCase().includes(inputUser.toLowerCase())) {
+        recipeFilter = [...recipeFilter, resultRecipe];
+        ELEMENTHTML.restIngredient.innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
       }
     }
   }
   createElement(recipeFilter);
   setIngredients(recipeFilter);
-};
+  [...document.querySelectorAll("li")].forEach(li => (li.addEventListener("click",() => addTag(li.innerHTML))))
+  
+  
+}
