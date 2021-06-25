@@ -3,6 +3,7 @@ import { createElement, setIngredients, addTag } from "./function.js";
 import { recipes } from "./recipe.js";
 
 export const searchRecipe = (e) => {
+ 
   const inputUser = e.target.value;
 
   if (inputUser.length < 3) {
@@ -33,29 +34,3 @@ export const searchRecipe = (e) => {
   
 
 };
-
-export const continueSearch = (array) => {
-  const inputUser = e.target.value;
-
-  let recipeFilter = [];
-
-  recipeFilter = array.filter(
-    (item) => item.name.toLowerCase().match(inputUser.toLowerCase()) || item.description.toLowerCase().match(inputUser.toLowerCase())
-  );
-
-  for (const key in array) {
-    const resultRecipe = array[key];
-    const listIngredient = array[key].ingredients;
-    for (const index in listIngredient) {
-      if (listIngredient[index].ingredient.toLowerCase().includes(inputUser.toLowerCase())) {
-        recipeFilter = [...recipeFilter, resultRecipe];
-        ELEMENTHTML.restIngredient.innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
-      }
-    }
-  }
-  createElement(recipeFilter);
-  setIngredients(recipeFilter);
-  [...document.querySelectorAll("li")].forEach(li => (li.addEventListener("click",() => addTag(li.innerHTML))))
-  
-  
-}
