@@ -36,7 +36,74 @@ export const setIngredients = (array) => {
 
 
 export const addTags = (element) => {
-    ELEMENTHTML.allTags.innerHTML=element;
+    ELEMENTHTML.allTags.innerHTML=`<p class="tag">${element}</p>`;
     ELEMENTHTML.choiceIngredient.innerHTML=""
+    const tag = document.querySelector(".tag");
+    toFiltreRecipe(tag.innerHTML)
 }
 
+export const searchIngredient = (e, array) => {
+    const inputUser = e.target.value;
+    for (let i = 0; i < array.length; i++) {
+        for (let k = 0; k < array[i].ingredients.length; k++) {
+            const element = array[i].ingredients[k].ingredient;
+            if(element.toLowerCase().includes(inputUser.toLowerCase())){
+                ELEMENTHTML.allTags.innerHTML=`<p class="tag">${inputUser}</p>`
+              }
+            }
+        }
+        const tag = document.querySelector(".tag")
+        toFiltreRecipe(tag.innerHTML)
+      
+}
+
+export const searchAppliance = (e, array) =>{
+    const inputUser = e.target.value;
+    for(let i = 0; i < array.length; i++){
+        if(array[i].appliance.toLowerCase().match(inputUser.toLowerCase())){
+            ELEMENTHTML.allTags.innerHTML=`<p class="tag">${inputUser}</p>`
+        }
+    }
+    const tag = document.querySelector(".tag")
+        toFiltreRecipe(tag.innerHTML)
+}
+
+export const searchUstencil = (e, array) => {
+    const inputUser = e.target.value;
+    for (let i = 0; i < array.length; i++) {
+       for (let j = 0; j < array[i].ustensils.length; j++) {
+           if(array[i].ustensils[j].toLowerCase().includes(inputUser.toLowerCase())){
+               ELEMENTHTML.allTags.innerHTML=`<p class="tag">${inputUser}</p>`
+           }
+           
+        }
+    }
+    const tag = document.querySelector(".tag")
+    toFiltreRecipe(tag.innerHTML)
+}
+
+ export const toFiltreRecipe = (tag) => {
+    let recipeFilter = [];
+    
+    for (let i = 0; i < recipes.length; i++) {
+        const currentRecipe = recipes[i];
+        if (currentRecipe.name.toLowerCase().match(tag.toLowerCase())) {
+            recipeFilter = [...recipeFilter, currentRecipe];
+        }
+        if(currentRecipe.description.toLowerCase().match(tag.toLowerCase())){
+            recipeFilter = [...recipeFilter, currentRecipe]
+        }
+        
+        for (let k = 0; k < currentRecipe.ingredients.length; k++) {
+            const element = currentRecipe.ingredients[k].ingredient;
+            if(element.toLowerCase().includes(tag.toLowerCase())){
+                recipeFilter = [...recipeFilter, currentRecipe];
+                ELEMENTHTML.choiceIngredient.innerHTML+=`<li>${currentRecipe.ingredients[k].ingredient}</li>`
+            }
+        }
+        
+    }
+    createElement(recipeFilter)
+    setIngredients(recipeFilter);
+    [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food.innerHTML)))
+};

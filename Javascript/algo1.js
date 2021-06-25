@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients, addTags} from "./function.js";
+import { createElement, setIngredients, addTags, toFiltreRecipe} from "./function.js";
 import { recipes } from "./recipe.js";
 
 //Entree => valeur utilisateur : Sortie => une liste (array) -> recettes filtrées
@@ -35,6 +35,8 @@ export const searchRecipe = (e) => {
       createElement(recipeFilter)
       setIngredients(recipeFilter);
       [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food.innerHTML)))
+      
+
 };
 
 
