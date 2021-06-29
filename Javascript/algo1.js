@@ -1,42 +1,42 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients, addTags, toFiltreRecipe} from "./function.js";
+import { createElement, setIngredients, addTags} from "./function.js";
 import { recipes } from "./recipe.js";
 
-//Entree => valeur utilisateur : Sortie => une liste (array) -> recettes filtrées
-// 1/ Recherche dans le titre , puis dans la description , puis sous tableau ingredient
-
 export const searchRecipe = (e) => {
-  const inputUser = e.target.value;
+  const inputUser = e.target.value.toLowerCase();
+
+  
+
   let recipeFilter = [];
   if (inputUser.length < 3) {
     ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Pour commencer la recherche , veuillez saisir au minimum 3 caractères</p>`;
   }
 
-  //recipes.name => recherche de titre
-
   for (let i = 0; i < recipes.length; i++) {
     const currentRecipe = recipes[i];
-    if (currentRecipe.name.toLowerCase().match(inputUser.toLowerCase())) {
+    if (currentRecipe.name.toLowerCase().match(inputUser)) {
       recipeFilter = [...recipeFilter, currentRecipe];
     }
-    if(currentRecipe.description.toLowerCase().match(inputUser.toLowerCase())){
-        recipeFilter = [...recipeFilter, currentRecipe]
+
+    for (let j = 0; j < currentRecipe.length; j++) {
+      if (currentRecipe.description.toLowerCase().match(inputUser)) {
+        if (!currentRecipe.id.includes(recipeFilter[j].id)) {
+          recipeFilter = [...recipeFilter, currentRecipe];
+        } else {
+          continue;
+        }
+      }
     }
 
     for (let k = 0; k < currentRecipe.ingredients.length; k++) {
-        const element = currentRecipe.ingredients[k].ingredient;
-        if(element.toLowerCase().includes(inputUser.toLowerCase())){
-            recipeFilter = [...recipeFilter, currentRecipe];
-            ELEMENTHTML.choiceIngredient.innerHTML+=`<li>${currentRecipe.ingredients[k].ingredient}</li>`
-          }
-        }
-        
+      const element = currentRecipe.ingredients[k].ingredient;
+      if (element.toLowerCase().includes(inputUser)) {
+        recipeFilter = [...recipeFilter, currentRecipe];
+        ELEMENTHTML.doAchoice[0].innerHTML += `<li>${element}</li>`;
+        ELEMENTHTML.doAchoice[0].classList.add("list-ingredient")
       }
-      createElement(recipeFilter)
-      setIngredients(recipeFilter);
-      [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food.innerHTML)))
-      
-
+    }
+    
+  }
+  [...document.querySelectorAll("li")].forEach((food) => food.addEventListener("click", () => addTags(food, 0, "list-ingredient")));
 };
-
-

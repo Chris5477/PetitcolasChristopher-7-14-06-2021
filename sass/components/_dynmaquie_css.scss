@@ -3,25 +3,49 @@
     font-size: 34px;
 }
 
-.field-ingredient{
-    display: inline;
+.list-ingredient{
+    width: 400px;
+    height: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    background-color: $input_ingredient;
+    color: white;
+    li{
+        padding: 10px;
+        width: 30%
+
+    }
 }
 
-.refresh{
-    &--ingredient{
-        background-color: $input_ingredient;
-        display: block;
-        @include size-container(30%, auto);
-    }
-    &--appliance{
-        background-color: $input-appliance;
-    }
-    &--ustencil{
-        background-color: $input-ustensils;
+.list-appliance{
+    width: 30%;
+    height: auto;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color:$input-appliance;
+    li{
+        padding: 10px;
+        width: 30%
+
     }
 }
 
-.grow-input{
-    display: block;
-    width: 100%;
+.list-ustensils{
+    width: 30%;
+    height: auto;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: $input-ustensils;
+    li{
+        padding: 10px;
+        width: 30%
+
+    }
 }
