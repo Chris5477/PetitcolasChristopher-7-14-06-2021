@@ -25,6 +25,53 @@ li {
   margin-top: 100px;
 }
 
+.no-result {
+  margin-top: 100px;
+  font-size: 34px;
+}
+
+.list-ingredient {
+  width: 400px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #3182f7;
+  color: white;
+}
+.list-ingredient li {
+  padding: 10px;
+  width: 30%;
+}
+
+.list-appliance {
+  width: 30%;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #68d8a3;
+}
+.list-appliance li {
+  padding: 10px;
+  width: 30%;
+}
+
+.list-ustensils {
+  width: 30%;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #ed6454;
+}
+.list-ustensils li {
+  padding: 10px;
+  width: 30%;
+}
+
 .header_index {
   display: flex;
   justify-content: center;

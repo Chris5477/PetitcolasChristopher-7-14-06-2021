@@ -34,53 +34,58 @@ export const setIngredients = (array) => {
     }
 }
 
-export const addTag= (el) => {
-    ELEMENTHTML.tags.innerHTML=`<p class="tag">${el}</p>`
-    ELEMENTHTML.restIngredient.innerHTML=""
+export const addTags = (element , index, classCss) => {
+    ELEMENTHTML.allTags.innerHTML=`<p class="tag">${element.innerHTML}</p>`
     const tag = document.querySelector(".tag");
     toFiltreRecipe(tag.innerHTML)
+    ELEMENTHTML.doAChoice[index].classList.remove(classCss);
+    [...document.querySelectorAll("li")].forEach(li => li.innerHTML="");
 }
 
-export const searchIngredient = (e, array) => {
-    const inputUser = e.target.value;
-    for (const key in array) {
-        const resultRecipe = array[key];
-        const listIngredient = array[key].ingredients;
+export const searchIngredient = (e) => {
+    const inputUser = e.target.value.toLowerCase();
+    for (const key in recipes) {
+        const resultRecipe = recipes[key];
+        const listIngredient = recipes[key].ingredients;
         for (const index in listIngredient) {
-          if (listIngredient[index].ingredient.toLowerCase().includes(inputUser.toLowerCase())) {
-            recipeFilter = [...recipeFilter, resultRecipe];
-            ELEMENTHTML.restIngredient.innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
+            const ingredient = listIngredient[index].ingredient.toLowerCase()
+          if (ingredient.match(inputUser)) {
+            ELEMENTHTML.doAChoice[0].innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
+            ELEMENTHTML.doAChoice[0].classList.add("list-ingredient")
           }
         }
-        const tag = document.querySelector(".tag")
-        toFiltreRecipe(tag.innerHTML)
+        
       
 }
+[...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food, 0, "list-ingredient")))
 }
 
-export const searchAppliance = (e, array) =>{
+export const searchAppliance = (e) =>{
     const inputUser = e.target.value;
-    for(let i = 0; i < array.length; i++){
-        if(array[i].appliance.toLowerCase().match(inputUser.toLowerCase())){
-            ELEMENTHTML.allTags.innerHTML=`<p class="tag">${inputUser}</p>`
+    for(let i = 0; i < recipes.length; i++){
+        const appliance = recipes[i].appliance.toLowerCase()
+        if(appliance.match(inputUser.toLowerCase())){
+            ELEMENTHTML.doAChoice[1].innerHTML+=`<li>${appliance}</li>`;
+            ELEMENTHTML.doAChoice[1].classList.add("list-appliance")
+            
         }
     }
-    const tag = document.querySelector(".tag")
-        toFiltreRecipe(tag.innerHTML)
+    [...document.querySelectorAll("li")].forEach(item => item.addEventListener("click",() => addTags(item, 1, "list-appliance")))
 }
 
-export const searchUstencil = (e, array) => {
+export const searchUstencil = (e) => {
     const inputUser = e.target.value;
-    for (let i = 0; i < array.length; i++) {
-       for (let j = 0; j < array[i].ustensils.length; j++) {
-           if(array[i].ustensils[j].toLowerCase().includes(inputUser.toLowerCase())){
-               ELEMENTHTML.allTags.innerHTML=`<p class="tag">${inputUser}</p>`
+    for (let i = 0; i < recipes.length; i++) {
+       for (let j = 0; j < recipes[i].ustensils.length; j++) {
+           const ustensil = recipes[i].ustensils[j].toLowerCase()
+            if(ustensil.match(inputUser.toLowerCase())){
+            ELEMENTHTML.doAChoice[2].innerHTML+=`<li>${ustensil}</li>`;
+            ELEMENTHTML.doAChoice[2].classList.add("list-ustensils")
            }
            
         }
     }
-    const tag = document.querySelector(".tag")
-    toFiltreRecipe(tag.innerHTML)
+    [...document.querySelectorAll("li")].forEach(item => item.addEventListener("click",() => addTags(item, 2, "list-ustensils")))
 }
 
  export const toFiltreRecipe = (tag) => {
@@ -96,7 +101,7 @@ export const searchUstencil = (e, array) => {
     for (const index in listIngredient) {
       if (listIngredient[index].ingredient.toLowerCase().includes(tag.toLowerCase())) {
         recipeFilter = [...recipeFilter, resultRecipe];
-        ELEMENTHTML.restIngredient.innerHTML+=`<li>${listIngredient[index].ingredient}</li>`;
+        
       }
     }
   
@@ -104,5 +109,5 @@ export const searchUstencil = (e, array) => {
     }
     createElement(recipeFilter)
     setIngredients(recipeFilter);
-    [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click",() => addTags(food.innerHTML)))
+    
 };
