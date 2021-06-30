@@ -39,7 +39,6 @@ const arrayTag = [];
 export const addTags = (element, index, classCss) => {
   arrayTag.push(element.innerHTML);
   arrayTag.forEach((tag) => (ELEMENTHTML.allTags.innerHTML += `<p class="tag">${element.innerHTML}</p>`));
-  // ELEMENTHTML.allTags.innerHTML=`<p class="tag">${element.innerHTML}</p>`
   const tag = document.querySelector(".tag");
   toFiltreRecipe(arrayTag);
   ELEMENTHTML.doAChoice[index].classList.remove(classCss);
@@ -91,24 +90,53 @@ export const searchUstencil = (e) => {
 
 export const toFiltreRecipe = (tags) => {
   let recipeFilter = [];
-  console.log(tags);
-
+  let arrayId = []
   for (const value of tags) {
-    recipeFilter = recipes.filter(
-      (item) => item.name.toLowerCase().match(value.toLowerCase()) || item.description.toLowerCase().match(value.toLowerCase())
-    );
+
+    if(recipeFilter !=[]) {
+      recipeFilter =recipeFilter.filter((item) => 
+      item.name.toLowerCase().match(value.toLowerCase()) || item.description.toLowerCase().match(value.toLowerCase()));
+  
+      arrayId = recipeFilter.map((item) => item.id);
+  
+      for (const key in recipeFilter) {
+        const resultRecipe = recipeFilter[key];
+        const listIngredient = recipeFilter[key].ingredients;
+        for (const index in listIngredient) {
+          const ingredient = listIngredient[index].ingredient.toLowerCase();
+          if([...arrayId].includes(resultRecipe.id)){
+            continue;
+          }
+          if (ingredient.includes(value.toLowerCase())) {
+            recipeFilter = [...recipeFilter, resultRecipe];
+            
+          }
+        }
+      }
+
+    }
+    console.log(recipeFilter)
+    recipeFilter =recipes.filter((item) => 
+    item.name.toLowerCase().match(value.toLowerCase()) || item.description.toLowerCase().match(value.toLowerCase()));
+
+    arrayId = recipeFilter.map((item) => item.id);
 
     for (const key in recipes) {
       const resultRecipe = recipes[key];
       const listIngredient = recipes[key].ingredients;
       for (const index in listIngredient) {
-        if (listIngredient[index].ingredient.toLowerCase().includes(value.toLowerCase())) {
+        const ingredient = listIngredient[index].ingredient.toLowerCase();
+        if([...arrayId].includes(resultRecipe.id)){
+          continue;
+        }
+        if (ingredient.includes(value.toLowerCase())) {
           recipeFilter = [...recipeFilter, resultRecipe];
+          
         }
       }
     }
   }
-
+  
   createElement(recipeFilter);
   setIngredients(recipeFilter);
 };
