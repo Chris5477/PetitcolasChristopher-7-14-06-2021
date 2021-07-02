@@ -1,5 +1,21 @@
+
+// logo fleche bas (input avancé)
+
 .fa-angle-up{
-    font-size: 20px;
-    color: orange;
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
 }
 
+//logo croix
+
+.fa-times{
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    top:5px;
+    right: 10px;
+}

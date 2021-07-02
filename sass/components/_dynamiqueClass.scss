@@ -3,13 +3,8 @@
     margin-top: 100px;
 }
 
-.no-result{
-    margin-top: 100px;
-    font-size: 34px;
-}
-
 .list-ingredient{
-    width: 400px;
+    width: 30%;
     height: auto;
 
     display: flex;
@@ -53,4 +48,16 @@
         width: 30%
 
     }
+}
+
+.blueTag{
+    background-color: $input_ingredient;
+}
+
+.greenTag{
+    background-color: $input-appliance;
+}
+
+.redTag{
+    background-color: $input-ustensils;
 }

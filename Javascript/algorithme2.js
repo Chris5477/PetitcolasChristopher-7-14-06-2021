@@ -27,5 +27,5 @@ export const searchRecipe = (e) => {
       }
     }
   }
-  [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click", () => addTags(food, 0, "list-ingredient")))
+  [...document.querySelectorAll("li")].forEach(food => food.addEventListener("click", () => addTags(food, 0, "list-ingredient", "blueTag")))
 };
