@@ -2,6 +2,7 @@ import { recipes } from "./recipe.js";
 import { ELEMENTHTML } from "./constant.js";
 
 
+
 // Fonction qui permet de générer des éléments HTML
 export const createElement = (array) => {
   // verfication du conteneur pour afficher autant d'élément que de recettes filtrées , si il n'est pas vide , alors on le vide
@@ -50,56 +51,6 @@ export const setIngredients = (array) => {
     });
   }
 };
-// fonction qui permet de valider un ingredient selon le besoin utilisateur
-export const searchIngredient = (e) => {
-  // variable qui va stocker l'entrée utilisateur en minuscule
-  const inputUser = e.target.value.toLowerCase();
-  // boucles pour permettre d 'acceder aux données
-  for (const key in recipes) {
-    //creation de variables pour rendre le code plus propre
-    const resultRecipe = recipes[key];
-    const listIngredient = recipes[key].ingredients;
-    for (const index in listIngredient) {
-      // Recuperation des ingredients en minuscules
-      const ingredient = listIngredient[index].ingredient.toLowerCase();
-      //si des ingredients de la liste correspondent à l'entrée utilisateur , alors on propose tout ce qui match dans l input avancé 
-      if (ingredient.match(inputUser)) {
-        ELEMENTHTML.doAChoice[0].innerHTML += `<li>${listIngredient[index].ingredient}</li>`;
-        ELEMENTHTML.doAChoice[0].classList.add("list-ingredient");
-      }
-    }
-  }
-  //Appelle de la fonction addtags pour afficher dans le tag, la valeur de l'ingredient choisi
-  [...document.querySelectorAll("li")].forEach((food) => food.addEventListener("click", () => addTags(food, 0, "list-ingredient", "blueTag")));
-};
-
-// Fonction qui a le même principe que searchIngredient
-export const searchAppliance = (e) => {
-  const inputUser = e.target.value;
-  for (let i = 0; i < recipes.length; i++) {
-    const appliance = recipes[i].appliance.toLowerCase();
-    if (appliance.match(inputUser.toLowerCase())) {
-      ELEMENTHTML.doAChoice[1].innerHTML += `<li>${appliance}</li>`;
-      ELEMENTHTML.doAChoice[1].classList.add("list-appliance");
-    }
-  }
-  [...document.querySelectorAll("li")].forEach((item) => item.addEventListener("click", () => addTags(item, 1, "list-appliance", "greenTag")));
-};
-
-// fonction qui a le même princie que searchIngredient et SearchAplliance
-export const searchUstencil = (e) => {
-  const inputUser = e.target.value;
-  for (let i = 0; i < recipes.length; i++) {
-    for (let j = 0; j < recipes[i].ustensils.length; j++) {
-      const ustensil = recipes[i].ustensils[j].toLowerCase();
-      if (ustensil.match(inputUser.toLowerCase())) {
-        ELEMENTHTML.doAChoice[2].innerHTML += `<li>${ustensil}</li>`;
-        ELEMENTHTML.doAChoice[2].classList.add("list-ustensils");
-      }
-    }
-  }
-  [...document.querySelectorAll("li")].forEach((item) => item.addEventListener("click", () => addTags(item, 2, "list-ustensils", "redTag")));
-};
 
 //initialisation de recipêFilter qui me servira pour trier les recettes on fontions des entrées utilisateur
 let recipeFilter = [];
@@ -113,8 +64,7 @@ export const addTags = (element, index, classCss, tagColor) => {
   arrayTag.push(element.innerHTML);
   // Pour chaque valeur tu tableau on crée un élément HTML p 
   ELEMENTHTML.allTags.innerHTML += `<p class="tag ${tagColor}">${element.innerHTML}<span class="fas fa-times"></span></p>`;
-  // Ciblage du p
-  const tag = document.querySelector(".tag");
+
   // en fonction de la taille de tableau , on appelle la fonction avec un array different
   recipeFilter.length === 0 ? toFiltreRecipe(arrayTag, recipes) : toFiltreRecipe(arrayTag, recipeFilter);
   // Suppresiion de la classe Css afin de retirer la list d 'ingredient
