@@ -8,6 +8,7 @@
     top: 50%;
     right: 25px;
     transform: translateY(-50%);
+    z-index: 1;
 }
 
 //logo croix
@@ -19,3 +20,7 @@
     top:5px;
     right: 10px;
 }
+
+.fa-search{
+    font-size: 25px;
+  }

@@ -26,7 +26,7 @@ li {
 }
 
 .list-ingredient {
-  width: 30%;
+  width: 300px;
   height: auto;
   display: flex;
   flex-wrap: wrap;
@@ -35,12 +35,13 @@ li {
   color: white;
 }
 .list-ingredient li {
+  font-size: 18px;
   padding: 10px;
   width: 30%;
 }
 
 .list-appliance {
-  width: 30%;
+  width: 300px;
   height: auto;
   color: white;
   display: flex;
@@ -49,12 +50,13 @@ li {
   background-color: #68d8a3;
 }
 .list-appliance li {
+  font-size: 18px;
   padding: 10px;
   width: 30%;
 }
 
 .list-ustensils {
-  width: 30%;
+  width: 300px;
   height: auto;
   color: white;
   display: flex;
@@ -63,6 +65,7 @@ li {
   background-color: #ed6454;
 }
 .list-ustensils li {
+  font-size: 18px;
   padding: 10px;
   width: 30%;
 }
@@ -79,6 +82,16 @@ li {
   background-color: #ed6454;
 }
 
+.list {
+  position: absolute;
+  top: 0px;
+  padding-top: 50px;
+}
+
+.animLogo {
+  animation: anim 0.1s forwards;
+}
+
 .fa-angle-up {
   color: white;
   font-size: 16px;
@@ -86,6 +99,7 @@ li {
   top: 50%;
   right: 25px;
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .fa-times {
@@ -96,13 +110,32 @@ li {
   right: 10px;
 }
 
+.fa-search {
+  font-size: 25px;
+}
+
+@keyframes anim {
+  0% {
+    transform: translate(0) rotateZ(0);
+  }
+  50% {
+    transform: translate(140px, -10px);
+  }
+  100% {
+    transform: translate(140px, -10px) rotateZ(-180deg);
+  }
+}
 .header_index {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 150px;
+  height: auto;
   margin-bottom: 50px;
+}
+.header_index img {
+  width: 70%;
+  transform: translateX(60px);
 }
 
 .main_index {
@@ -113,11 +146,11 @@ li {
 .search-zone {
   width: 100%;
   height: auto;
+  position: relative;
 }
 .search-zone .item {
   width: 100%;
   height: 60px;
-  position: relative;
   background-color: #e6e6e6;
   margin-bottom: 30px;
   border-radius: 10px;
@@ -127,22 +160,24 @@ li {
 }
 .search-zone button {
   position: absolute;
-  top: 21%;
-  right: 4%;
+  top: 0;
+  right: 0;
   border: none;
   background-color: #e6e6e6;
-  padding: 15px;
-}
-.search-zone button span {
-  font-size: 30px;
+  padding: 15px 5px;
 }
 
 .box {
   display: inline-block;
+  position: relative;
 }
 
 .style-input {
   position: relative;
+}
+
+.list {
+  margin-right: 50px;
 }
 
 .select {
@@ -153,8 +188,11 @@ li {
   font-size: 18px;
   font-weight: bold;
   border: none;
+  outline: none;
   border-radius: 5px;
   margin-right: 15px;
+  position: relative;
+  z-index: 1;
 }
 .select--ingredient {
   background-color: #3182f7;
@@ -180,7 +218,7 @@ li {
   height: 350px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 50% 10% 35% 5%;
+  grid-template-rows: 40% 15% 40% 5%;
   background-color: #e6e6e6;
   border-radius: 7px;
   margin: 20px;

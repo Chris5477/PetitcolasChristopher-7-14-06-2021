@@ -1,63 +1,73 @@
-.no-result{
-    font-size: 28px;
-    margin-top: 100px;
+.no-result {
+  font-size: 28px;
+  margin-top: 100px;
 }
 
-.list-ingredient{
+.list-ingredient {
+  width: 300px;
+  height: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  background-color: $input_ingredient;
+  color: white;
+  li {
+    font-size: 18px;
+    padding: 10px;
     width: 30%;
-    height: auto;
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-
-    background-color: $input_ingredient;
-    color: white;
-    li{
-        padding: 10px;
-        width: 30%
-
-    }
+  }
 }
 
-.list-appliance{
+.list-appliance {
+  width: 300px;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: $input-appliance;
+  li {
+    font-size: 18px;
+    padding: 10px;
     width: 30%;
-    height: auto;
-    color: white;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    background-color:$input-appliance;
-    li{
-        padding: 10px;
-        width: 30%
-
-    }
+  }
 }
 
-.list-ustensils{
+.list-ustensils {
+  width: 300px;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: $input-ustensils;
+  li {
+    font-size: 18px;
+    padding: 10px;
     width: 30%;
-    height: auto;
-    color: white;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    background-color: $input-ustensils;
-    li{
-        padding: 10px;
-        width: 30%
-
-    }
+  }
 }
 
-.blueTag{
-    background-color: $input_ingredient;
+.blueTag {
+  background-color: $input_ingredient;
 }
 
-.greenTag{
-    background-color: $input-appliance;
+.greenTag {
+  background-color: $input-appliance;
 }
 
-.redTag{
-    background-color: $input-ustensils;
+.redTag {
+  background-color: $input-ustensils;
+}
+
+.list {
+  position: absolute;
+  top: 0px;
+  padding-top: 50px;
+}
+
+.animLogo {
+  animation: anim 0.1s forwards;
 }

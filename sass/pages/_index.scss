@@ -1,7 +1,11 @@
 .header_index {
   @include flex(center, center);
-  @include size-container(100%, 150px);
+  @include size-container(100%, auto);
   margin-bottom: 50px;
+  img{
+    width: 70%;
+    transform: translateX(60px)
+  }
 }
 
 .main_index {
@@ -10,9 +14,9 @@
 
 .search-zone {
   @include size-container(100%, auto);
+  position: relative;
   .item {
     @include size-container(100%, 60px);
-    position: relative;
     background-color: $bg-field;
     margin-bottom: 30px;
     border-radius: 10px;
@@ -22,22 +26,24 @@
   }
   button {
     position: absolute;
-    top: 21%;
-    right: 4%;
+    top: 0;
+    right: 0;
     border: none;
     background-color: $bg-field;
-    padding: 15px;
-    span {
-      font-size: 30px;
-    }
+    padding: 15px 5px;
   }
 }
 
 .box{
     display: inline-block;
+    position: relative;
 }
 .style-input{
     position: relative;
+}
+
+.list{
+  margin-right: 50px
 }
 
 .select {
@@ -47,8 +53,11 @@
   font-size: 18px;
   font-weight: bold;
   border: none;
+  outline: none;
   border-radius: 5px;
   margin-right: 15px;
+  position: relative;
+  z-index: 1;
   &--ingredient {
     background-color: $input_ingredient;
   }
@@ -70,7 +79,7 @@
   @include size-container(30%, 350px);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 50% 10% 35% 5%;
+  grid-template-rows: 40% 15% 40% 5%;
   background-color: $bg-article;
   border-radius: 7px;
   margin: 20px;
