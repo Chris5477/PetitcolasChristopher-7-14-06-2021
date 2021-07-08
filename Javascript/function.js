@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-let recipeFilter =[]
+
 let idRecipe = [];
 // Fonction qui permet de générer des éléments HTML
 export const createElement = (array) => {
@@ -7,7 +7,7 @@ export const createElement = (array) => {
   if (ELEMENTHTML.containerRecipe.innerHTML != "") {
     ELEMENTHTML.containerRecipe.innerHTML = "";
   }
-
+  
   // Création des éléments avec une boucles pour injecter les données
   for (const element of array) {
     ELEMENTHTML.containerRecipe.innerHTML += `
@@ -48,93 +48,4 @@ export const setIngredients = (array) => {
       }
     });
   }
-};
-
-export const addAllIngredients = (array) => {
-  for (const recipe of array) {
-    for (const food of recipe.ingredients) {
-      const ingredient = food.ingredient.toLowerCase();
-      if (ELEMENTHTML.listFood.innerHTML.includes(`<li class="ing">${ingredient}</li>`)) {
-        continue;
-      }
-      ELEMENTHTML.box[0].appendChild(ELEMENTHTML.listFood);
-      ELEMENTHTML.listFood.innerHTML += `<li class="ing">${ingredient}</li>`;
-      ELEMENTHTML.listFood.classList.add("list-ingredient");
-    }
-  }
-};
-
-export const addAllAppliances = (array) => {
-  for (const recipe of array) {
-    const appliance = recipe.appliance.toLowerCase();
-    if (ELEMENTHTML.listItem.innerHTML.includes(`<li class="object">${appliance}</li>`)) {
-      continue;
-    }
-    ELEMENTHTML.box[1].appendChild(ELEMENTHTML.listItem);
-    ELEMENTHTML.listItem.innerHTML += `<li class="object">${appliance}</li>`;
-    ELEMENTHTML.listItem.classList.add("list-appliance");
-  }
-};
-
-export const addAllUstencil = (array) => {
-  for (const recipe of array) {
-    for (const item of recipe.ustensils) {
-      const ustencil = item.toLowerCase();
-      if (ELEMENTHTML.listUStencil.innerHTML.includes(`<li class="item">${ustencil}</li>`)) {
-        continue;
-      }
-      ELEMENTHTML.box[2].appendChild(ELEMENTHTML.listUStencil);
-      ELEMENTHTML.listUStencil.innerHTML += `<li class="item">${ustencil}</li>`;
-      ELEMENTHTML.listUStencil.classList.add("list-ustensils");
-    }
-  }
-};
-
-export const searchElement = (e) => {
-  const inputUser = e.target.value.toLowerCase();
-  const elementsLiHtml = [...document.querySelectorAll("li")];
-  for (const li of elementsLiHtml) {
-    if (inputUser.length >= 3 && li.innerHTML !== inputUser && !li.innerHTML.match(inputUser)) {
-      li.style.display = "none";
-    }
-  }
-  elementsLiHtml.forEach((li) => li.addEventListener("click", () => addTag(li)));
-};
-
-
-const addTag = (element) => {
-let cssClass = null;
-  if(element.classList.contains("ing")){
-    cssClass = "blueTag"
-  }else if(element.classList.contains("object")){
-    cssClass = "greenTag"
-  }else{
-    cssClass = "redTag"
-  }
- 
-  ELEMENTHTML.allTags.innerHTML += `<p class="tag ${cssClass}">${element.innerHTML}<span class="far fa-times-circle"></span></p>`;
-  filterByTag(element.innerHTML, recipeFilter)
-};
-
-const filterByTag = (tag , array) => {
-  const input = tag.toLowerCase();
-  console.log(array)
-  recipeFilter = array.filter((recipe) => recipe.name.toLowerCase().match(input) || recipe.description.toLowerCase().match(input));
-  console.log(array)
-
-  idRecipe = recipeFilter.map((recipeId) => recipeId.id);
-
-  for (const recipe of array) {
-    for (const food of recipe.ingredients) {
-      const ingredient = food.ingredient.toLowerCase();
-      if ([...idRecipe].includes(recipe.id)) {
-        continue;
-      }
-      if (ingredient.includes(input)) {
-        recipeFilter = [...recipeFilter, recipe];
-      }
-    }
-  }
-  createElement(recipeFilter);
-  setIngredients(recipeFilter);
 };
