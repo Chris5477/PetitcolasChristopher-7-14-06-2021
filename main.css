@@ -25,8 +25,15 @@ li {
   margin-top: 100px;
 }
 
+#bigInput {
+  width: 360px;
+  display: block;
+  text-align: left;
+  padding: 0 0 0 20px;
+}
+
 .list-ingredient {
-  width: 300px;
+  width: 400px;
   height: auto;
   display: flex;
   flex-wrap: wrap;
@@ -41,7 +48,7 @@ li {
 }
 
 .list-appliance {
-  width: 300px;
+  width: 400px;
   height: auto;
   color: white;
   display: flex;
@@ -56,7 +63,7 @@ li {
 }
 
 .list-ustensils {
-  width: 300px;
+  width: 400px;
   height: auto;
   color: white;
   display: flex;
@@ -116,13 +123,13 @@ li {
 
 @keyframes anim {
   0% {
-    transform: translate(0) rotateZ(0);
+    transform: translateY(0) rotateZ(0);
   }
   50% {
-    transform: translate(140px, -10px);
+    transform: translateY(-10px);
   }
   100% {
-    transform: translate(140px, -10px) rotateZ(-180deg);
+    transform: translateY(-10px) rotateZ(-180deg);
   }
 }
 .header_index {

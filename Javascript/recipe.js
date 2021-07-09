@@ -20,7 +20,7 @@ export const recipes = [
             },
             {
                 "ingredient" : "Sucre",
-                "quantity" : 30,
+                "quantite" : 30,
                 "unit" : "grammes"
             },
             {
@@ -52,7 +52,7 @@ export const recipes = [
             },
             {
                 "ingredient" : "Carotte",
-                "quantity" : 1
+                "quantite" : 1
             },
             {
                 "ingredient" : "Citron Vert",
@@ -250,7 +250,7 @@ export const recipes = [
         "time": 50,
         "description": "Etaler la pate dans les moules à tartelette. Faire cuire la pate 30 minutes. Découper le chocolat en morceau et le faire chauffer, y ajouter la crême liquide, ajouter le beurre et remuer jusqu'à avoir une pâte homogène. Verser la pate sur les tartelettes. Couper les fraises en 2 et les positionner sur ",
         "appliance":"Four",
-        "ustensils":["moules à tartelette", "casserolle"]
+        "ustensils":["moule à tartelettes (6)", "casserolle"]
     }, {
         "id": 8,
         "name": "Brownie",
@@ -906,7 +906,7 @@ export const recipes = [
                 "quantity": 1
             },
             {
-                "ingredient": "Huile d'olive"
+                "ingredient": "Huile d'olives"
             },
             {
                 "ingredient": "Oignon",

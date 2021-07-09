@@ -1,9 +1,10 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients } from "./function.js";
+import { createElement, setIngredients, addStyleInput, removeStyleInput} from "./function.js";
 import { recipes } from "./recipe.js";
 
 export let recipeFilter = [];
 let idRecipe = [];
+let arrayTag = [];
 export const mainSearch = (e) => {
   const inputUser = e.target.value.toLowerCase();
 
@@ -12,7 +13,6 @@ export const mainSearch = (e) => {
   }
 
   recipeFilter = recipes.filter((recipe) => recipe.name.toLowerCase().match(inputUser) || recipe.description.toLowerCase().match(inputUser));
-
   idRecipe = recipeFilter.map((recipeId) => recipeId.id);
 
   for (const recipe of recipes) {
@@ -43,21 +43,20 @@ export const mainSearch = (e) => {
   });
 };
 
-export const addAllIngredients = (recipeFilter) => {
+const addAllIngredients = (recipeFilter) => {
   for (const recipe of recipeFilter) {
     for (const food of recipe.ingredients) {
       const ingredient = food.ingredient.toLowerCase();
       if (ELEMENTHTML.listFood.innerHTML.includes(`<li class="ing">${ingredient}</li>`)) {
         continue;
       }
-      ELEMENTHTML.box[0].appendChild(ELEMENTHTML.listFood);
-      ELEMENTHTML.listFood.innerHTML += `<li class="ing">${ingredient}</li>`;
-      ELEMENTHTML.listFood.classList.add("list-ingredient");
+      
+      addStyleInput(0, ELEMENTHTML.listFood,"list-ingredient", ingredient)
     }
   }
 };
 
-export const addAllAppliances = (recipeFilter) => {
+const addAllAppliances = (recipeFilter) => {
   for (const recipe of recipeFilter) {
     const appliance = recipe.appliance.toLowerCase();
     if (ELEMENTHTML.listItem.innerHTML.includes(`<li class="object">${appliance}</li>`)) {
@@ -69,15 +68,15 @@ export const addAllAppliances = (recipeFilter) => {
   }
 };
 
-export const addAllUstencil = (recipeFilter) => {
+ const addAllUstencil = (recipeFilter) => {
   for (const recipe of recipeFilter) {
     for (const item of recipe.ustensils) {
       const ustencil = item.toLowerCase();
-      if (ELEMENTHTML.listUStencil.innerHTML.includes(`<li class="item">${ustencil}</li>`)) {
+      if (ELEMENTHTML.listUStencil.innerHTML.includes(`<li class="ustensil">${ustencil}</li>`)) {
         continue;
       }
       ELEMENTHTML.box[2].appendChild(ELEMENTHTML.listUStencil);
-      ELEMENTHTML.listUStencil.innerHTML += `<li class="item">${ustencil}</li>`;
+      ELEMENTHTML.listUStencil.innerHTML += `<li class="ustensil">${ustencil}</li>`;
       ELEMENTHTML.listUStencil.classList.add("list-ustensils");
     }
   }
@@ -105,33 +104,76 @@ const addTag = (element) => {
   }
 
   ELEMENTHTML.allTags.innerHTML += `<p class="tag ${cssClass}">${element.innerHTML}<span class="far fa-times-circle"></span></p>`;
-  filterByTag(element.innerHTML);
-  const closeLogo = [...document.querySelectorAll(".fa-times-circle")];
-  closeLogo.forEach((logo, index) => logo.addEventListener("click", () => removeTag(index)));
+  arrayTag.push(element.innerHTML);
+  filterByTag(arrayTag);
+
+  [...document.querySelectorAll(".fa-times-circle")].forEach((item, key) => item.addEventListener("click", () => undoTag(arrayTag, key)));
 };
 
-const filterByTag = (tag) => {
-  const input = tag.toLowerCase();
-  recipeFilter = recipeFilter.filter((recipe) => recipe.name.toLowerCase().match(input) || recipe.description.toLowerCase().match(input));
+// Fonction qui permet d'afficher les recettes en fonctions des tags
+export const filterByTag = (tags) => {
 
-  idRecipe = recipeFilter.map((recipeId) => recipeId.id);
+  removeStyleInput(0, ELEMENTHTML.listFood, "list-ingredient")
 
-  for (const recipe of recipeFilter) {
-    for (const food of recipe.ingredients) {
-      const ingredient = food.ingredient.toLowerCase();
+  //si mainsearch == tomate , recipefilter === 3
+  
+
+  
+  for (const tag of tags) {
+    
+    recipeFilter = [...recipeFilter].filter(item => item.name.toLowerCase().match(tag) || item.description.toLowerCase().match(tag))
+    idRecipe = recipeFilter.map(item => item.id)
+
+    for (const recipe of recipes) {
+      for (const ingredient of recipe.ingredients) {
+        const food = ingredient.ingredient.toLowerCase()
+        if ([...idRecipe].includes(recipe.id)) {
+          continue;
+        }
+        if(food.includes(tag)){
+          recipeFilter = [...recipeFilter, recipe]
+        }
+      }
+      
+      const appliance = recipe.appliance.toLowerCase()
       if ([...idRecipe].includes(recipe.id)) {
         continue;
       }
-      if (ingredient.includes(input)) {
-        recipeFilter = [...recipeFilter, recipe];
+      if(appliance.includes(tag)){
+        recipeFilter =[...recipeFilter, recipe]
       }
-    }
+
+      for (const ustencil of recipe.ustensils) {
+        if ([...idRecipe].includes(recipe.id)) {
+          continue;
+        }
+        if(ustencil.includes(tag)){
+          recipeFilter =[...recipeFilter, recipe]
+        }
+  
+      }
+      
+    }  
+
   }
-  createElement(recipeFilter);
-  setIngredients(recipeFilter);
+
+  
+  createElement(recipeFilter)
+  setIngredients(recipeFilter)
+  
 };
 
-const removeTag = (index) => {
-  const tag = [...document.querySelectorAll(".tag")][index].remove();
-  ELEMENTHTML.allTags.innerHTML === "" ? createElement(recipes) + setIngredients(recipes) + addAllIngredients(recipes) : filterByTag(tag);
+export const undoTag = (array, key) => {
+  array.splice(key);
+  //avec la clé récuperé , on supprime le tag associé
+  [...document.querySelectorAll(".tag")][key].remove();
+  // puis on revérifie la taille du tableau pour filtrer en fonctions des tags qui reste
+  if (array.length === 0) {
+    createElement(recipes);
+    setIngredients(recipes);
+  } else if (array.length >= 1) {
+    toFiltreRecipe(arrayTag, recipes);
+  } else {
+    toFiltreRecipe(arrayTag, recipeFilter);
+  }
 };

@@ -5,6 +5,7 @@ export const ELEMENTHTML = {
     listFood : document.querySelector(".list-food"),
     listItem : document.querySelector(".list-item"),
     listUStencil : document.querySelector(".list-ustencil"),
+    spanContainerInput : [...document.querySelectorAll(".style-input")],
     box : [...document.querySelectorAll(".box")],
     logoArraow : [...document.querySelectorAll(".fa-angle-up")],
     inputIngredient: document.getElementById("ingredient"),
