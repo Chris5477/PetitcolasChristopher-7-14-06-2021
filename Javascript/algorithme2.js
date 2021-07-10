@@ -2,7 +2,7 @@ import { ELEMENTHTML } from "./constant.js";
 import { createElement, setIngredients, addStyleInput, removeStyleInput} from "./function.js";
 import { recipes } from "./recipe.js";
 
-export let recipeFilter = [];
+let recipeFilter = [];
 let idRecipe = [];
 let arrayTag = [];
 export const mainSearch = (e) => {
@@ -116,39 +116,28 @@ export const filterByTag = (tags) => {
   removeStyleInput(0, ELEMENTHTML.listFood, "list-ingredient")
 
   //si mainsearch == tomate , recipefilter === 3
-  
-
-  
+  console.log(recipeFilter)
+  let resultResearch = null
   for (const tag of tags) {
-    
-    recipeFilter = [...recipeFilter].filter(item => item.name.toLowerCase().match(tag) || item.description.toLowerCase().match(tag))
-    idRecipe = recipeFilter.map(item => item.id)
-
-    for (const recipe of recipes) {
+    resultResearch = []
+    for (const recipe of recipeFilter) {
       for (const ingredient of recipe.ingredients) {
         const food = ingredient.ingredient.toLowerCase()
-        if ([...idRecipe].includes(recipe.id)) {
-          continue;
-        }
+ 
         if(food.includes(tag)){
-          recipeFilter = [...recipeFilter, recipe]
+          resultResearch.push(recipe)
         }
       }
       
       const appliance = recipe.appliance.toLowerCase()
-      if ([...idRecipe].includes(recipe.id)) {
-        continue;
-      }
+    
       if(appliance.includes(tag)){
-        recipeFilter =[...recipeFilter, recipe]
+        resultResearch.push(recipe)
       }
 
       for (const ustencil of recipe.ustensils) {
-        if ([...idRecipe].includes(recipe.id)) {
-          continue;
-        }
         if(ustencil.includes(tag)){
-          recipeFilter =[...recipeFilter, recipe]
+          resultResearch.push(recipe)
         }
   
       }
@@ -157,9 +146,9 @@ export const filterByTag = (tags) => {
 
   }
 
-  
-  createElement(recipeFilter)
-  setIngredients(recipeFilter)
+  recipeFilter = resultResearch
+  createElement(resultResearch)
+  setIngredients(resultResearch)
   
 };
 
