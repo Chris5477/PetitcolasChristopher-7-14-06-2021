@@ -33,3 +33,24 @@ export const setIngredients = (array) => {
     });
   }
 };
+
+export const addStyleInput = (index, elementDom, classCss, contentDynamique) => {
+  elementDom.innerHTML += `<li class="ing">${contentDynamique}</li>`;
+  ELEMENTHTML.box[index].appendChild(elementDom);
+
+  ELEMENTHTML.spanContainerInput[index].id = "bigInput";
+  ELEMENTHTML.inputIngredient.id = "bigInput";
+
+  ELEMENTHTML.logoArraow[index].classList.add("animLogo");
+  ELEMENTHTML.listFood.classList.add(classCss);
+};
+
+export const removeStyleInput = (index, elementDom, classCss) => {
+  ELEMENTHTML.box[index].appendChild(elementDom);
+
+  ELEMENTHTML.spanContainerInput[index].id = "";
+  ELEMENTHTML.inputIngredient.id = "";
+
+  ELEMENTHTML.logoArraow[index].classList.remove("animLogo");
+  ELEMENTHTML.listFood.classList.remove(classCss);
+};
