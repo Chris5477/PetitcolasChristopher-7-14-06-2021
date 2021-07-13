@@ -1,4 +1,3 @@
-
 import { ELEMENTHTML } from "./constant.js";
 import { createElement, setIngredients, addStyleInput, removeStyleInput } from "./function.js";
 import { recipes } from "./recipe.js";
@@ -7,6 +6,7 @@ export let arr = recipes;
 let recipeFilter = [];
 let idRecipe = [];
 let arrayTag = [];
+let historySearch = [];
 let resultResearch = null;
 
 export const mainSearch = (e) => {
@@ -14,6 +14,8 @@ export const mainSearch = (e) => {
   if (inputUser.length < 3) {
     ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`;
   }
+
+  ELEMENTHTML.mainSearch.value ? arrayTag.splice(0, 1, inputUser) : (arrayTag = []);
 
   recipeFilter = arr.filter((recipe) => recipe.name.toLowerCase().match(inputUser) || recipe.description.toLowerCase().match(inputUser));
   idRecipe = recipeFilter.map((recipeId) => recipeId.id);
@@ -30,10 +32,15 @@ export const mainSearch = (e) => {
     }
   }
 
-  createElement(recipeFilter);
-  setIngredients(recipeFilter);
+  if (inputUser.length !== 0) {
+    createElement(recipeFilter);
+    setIngredients(recipeFilter);
+  } else {
+    createElement(recipes);
+    setIngredients(recipes);
+  }
 
-  setListOfRecipe()
+  setListOfRecipe();
 };
 
 export const addAllIngredients = (array) => {
@@ -75,7 +82,7 @@ export const addAllUstencil = (array) => {
 };
 
 export const searchElement = (e) => {
-  setListOfRecipe()
+  setListOfRecipe();
   const inputUser = e.target.value.toLowerCase();
   const elementsLiHtml = [...document.querySelectorAll("li")];
   for (const li of elementsLiHtml) {
@@ -96,17 +103,25 @@ const addTag = (element) => {
   } else {
     cssClass = "redTag";
   }
-  ELEMENTHTML.mainSearch.value ? (array = recipeFilter) : (array = arr);
+  ELEMENTHTML.mainSearch.value ? ((array = recipeFilter), historySearch.push(recipeFilter)) : ((array = arr), historySearch.push(arr));
 
   ELEMENTHTML.allTags.innerHTML += `<p class="tag ${cssClass}">${element.innerHTML}<span class="far fa-times-circle"></span></p>`;
   arrayTag.push(element.innerHTML);
   filterByTag(arrayTag, array);
+  [...document.querySelectorAll(".fa-times-circle")].forEach((logo, index) =>
+    logo.addEventListener("click", () => {
+      let numberTag = null;
+      [...document.querySelectorAll(".tag")][index].remove();
+      ELEMENTHTML.mainSearch.value ? (numberTag = index + 1) : (numberTag = index);
+      arrayTag.splice(numberTag, 1);
+      arrayTag.length !== 0 ? filterByTag(arrayTag, historySearch[index]) : createElement(recipes) + setIngredients(recipes);
+    })
+  );
 };
 
 // Fonction qui permet d'afficher les recettes en fonctions des tags
 export const filterByTag = (tags, array) => {
   removeStyleInput(0, ELEMENTHTML.listFood, "list-ingredient");
-
   for (const tag of tags) {
     resultResearch = [];
     if (array === arr) {
@@ -134,40 +149,39 @@ export const filterByTag = (tags, array) => {
       }
     }
   }
-  if(array === recipeFilter){
-    recipeFilter = resultResearch
+  if (array === recipeFilter) {
+    recipeFilter = resultResearch;
   }
-    arr = resultResearch
-  
+  arr = resultResearch;
+
   createElement(resultResearch);
   setIngredients(resultResearch);
 };
 
 const setListOfRecipe = () => {
-  if(ELEMENTHTML.mainSearch.value){
-
+  if (ELEMENTHTML.mainSearch.value) {
     ELEMENTHTML.inputIngredient.addEventListener("click", () => {
       addAllIngredients(recipeFilter);
     });
-    
+
     ELEMENTHTML.inputAppliance.addEventListener("click", () => {
       addAllAppliances(recipeFilter);
     });
-    
+
     ELEMENTHTML.inputUstencil.addEventListener("click", () => {
       addAllUstencil(recipeFilter);
     });
-  }else{
+  } else {
     ELEMENTHTML.inputIngredient.addEventListener("click", () => {
       addAllIngredients(arr);
     });
-    
+
     ELEMENTHTML.inputAppliance.addEventListener("click", () => {
       addAllAppliances(arr);
     });
-    
+
     ELEMENTHTML.inputUstencil.addEventListener("click", () => {
       addAllUstencil(arr);
-  })
-}
-}
+    });
+  }
+};
