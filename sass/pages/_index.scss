@@ -48,7 +48,6 @@
 
 .select {
   @include size-container(140px, 60px);
-  color: $input-txt;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
@@ -57,7 +56,11 @@
   border-radius: 5px;
   margin-right: 15px;
   position: relative;
+  cursor: pointer;
   z-index: 1;
+  &::placeholder{
+    color: $input-txt;
+  }
   &--ingredient {
     background-color: $input_ingredient;
   }
@@ -68,6 +71,7 @@
     background-color: $input-ustensils;
   }
 }
+
 
 .all_recipes {
   @include size-container(100%, auto);
