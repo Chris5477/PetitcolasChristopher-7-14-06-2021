@@ -1,26 +1,26 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients } from "./function.js";
+import { createElement, setIngredients, setTypeTag, removeTag } from "./function.js";
 import { recipes } from "./recipe.js";
-export let arr = recipes;
+export let copyRecipes = recipes;
 
 let recipeFilter = [];
 let idRecipe = [];
-let ing = [];
-let app = [];
-let us = [];
+let allIngredients = [];
+let allAppliances = [];
+let allUstensils = [];
+let historySearch = [];
 
-export const mainSearch = (e) => {
-  console.time()
+export const searchByMainInput = (e) => {
   const inputUser = e.target.value.toLowerCase();
 
   if (inputUser.length < 3) {
     return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
   }
 
-  recipeFilter = arr.filter((recipe) => recipe.name.toLowerCase().match(inputUser) || recipe.description.toLowerCase().match(inputUser));
+  recipeFilter = copyRecipes.filter((recipe) => recipe.name.toLowerCase().match(inputUser) || recipe.description.toLowerCase().match(inputUser));
   idRecipe = recipeFilter.map((recipeId) => recipeId.id);
 
-  for (const recipe of arr) {
+  for (const recipe of copyRecipes) {
     for (const food of recipe.ingredients) {
       const ingredient = food.ingredient.toLowerCase();
       if ([...idRecipe].includes(recipe.id)) {
@@ -37,47 +37,49 @@ export const mainSearch = (e) => {
   list(recipeFilter);
 };
 
-const list = (a) => {
-
-  const aaa = a.flatMap((item) => item.ingredients.map((el) => el.ingredient.toLowerCase()));
-  const bbb = a.map((item) => item.appliance.toLowerCase());
-  const ccc = a.flatMap((item) => item.ustensils).map((el) => el.toLowerCase());
-  ing = aaa.filter((element, position) => aaa.indexOf(element) === position);
-  app = bbb.filter((element, position) => bbb.indexOf(element) === position);
-  us = ccc.filter((element, position) => ccc.indexOf(element) === position);
-  showList(a);
+export const createList = (array) => {
+  const listTemporyIngredient = array.flatMap((item) => item.ingredients.map((el) => el.ingredient.toLowerCase()));
+  const listTemporyAppliance = array.map((item) => item.appliance.toLowerCase());
+  const listTemporyUstensil = array.flatMap((item) => item.ustensils).map((el) => el.toLowerCase());
+  allIngredients = listTemporyIngredient.filter((element, position) => listTemporyIngredient.indexOf(element) === position);
+  allAppliances = listTemporyAppliance.filter((element, position) => listTemporyAppliance.indexOf(element) === position);
+  allUstensils = listTemporyUstensil.filter((element, position) => listTemporyUstensil.indexOf(element) === position);
+  showList(array);
 };
 
 const showList = (array) => {
-  ELEMENTHTML.listFood.innerHTML = `${ing.map((ing) => `<li class="list-ingredient ing">${ing}</li>`).join("")}`;
-  ELEMENTHTML.listItem.innerHTML = `${app.map((app) => `<li class="list-appliance object">${app}</li>`).join("")}`;
-  ELEMENTHTML.listUStencil.innerHTML = `${us.map((us) => `<li class="list-utsensils item">${us}</li>`).join("")}`;
-  choix(array);
-  ELEMENTHTML.inputIngredient.addEventListener("input", (e) => filtreList(e));
-  ELEMENTHTML.inputAppliance.addEventListener("input", (e) => filtreList(e));
-ELEMENTHTML.inputUstencil.addEventListener("input", (e) => filtreList(e));
+  ELEMENTHTML.listFood.innerHTML = `${allIngredients.map((ingredient) => `<li class="list-ingredient ing">${ingredient}</li>`).join("")}`;
+  ELEMENTHTML.listItem.innerHTML = `${allAppliances.map((appliance) => `<li class="list-appliance object">${appliance}</li>`).join("")}`;
+  ELEMENTHTML.listUStencil.innerHTML = `${allUstensils.map((ustensil) => `<li class="list-ustencil ustencil">${ustensil}</li>`).join("")}`;
+  choiceInList(array);
+  ELEMENTHTML.inputIngredient.addEventListener("input", (e) => filteredList(e));
+  ELEMENTHTML.inputAppliance.addEventListener("input", (e) => filteredList(e));
+  ELEMENTHTML.inputUstencil.addEventListener("input", (e) => filteredList(e));
 };
 
-export const filtreList = (e) => {
-let inputUser = e.target.value.toLowerCase();
-[...document.querySelectorAll("li")].forEach(el => {
-  if( !el.innerHTML.includes(inputUser)){
-    el.style.display="none"
-  }
-})
-}
-
-const choix = (array) => {
-  ELEMENTHTML.inputIngredient.value="";
-  [...document.querySelectorAll("li")].forEach((el) => el.addEventListener("click", () => add(el, array)));
+ const filteredList = (e) => {
+  let inputUser = e.target.value.toLowerCase();
+  [...document.querySelectorAll("li")].forEach((el) => {
+    if (!el.innerHTML.includes(inputUser)) {
+      el.style.display = "none";
+    }
+  });
 };
 
-const add = (element, array) => {
-  ELEMENTHTML.allTags.innerHTML += element.innerHTML;
-  filtrage(element.innerHTML, array);
+const choiceInList = (array) => {
+  ELEMENTHTML.inputIngredient.value = "";
+  ELEMENTHTML.inputAppliance.value = "";
+  ELEMENTHTML.inputUstencil.value = "";
+  [...document.querySelectorAll("li")].forEach((el) => el.addEventListener("click", () => addTag(el, array)));
 };
 
-const filtrage = (tag, array) => {
+const addTag = (element, array) => {
+  let classTag = setTypeTag(element);
+  ELEMENTHTML.allTags.innerHTML += `<p class="tag ${classTag}">${element.innerHTML}<span class="far fa-times-circle"></span></p>`;
+  stepRecipeFiltered(element.innerHTML, array);
+};
+
+const stepRecipeFiltered = (tag, array) => {
   let stockageTemporay = [];
   for (const recipe of array) {
     for (const food of recipe.ingredients) {
@@ -98,16 +100,19 @@ const filtrage = (tag, array) => {
     }
   }
 
+  historySearch.push(array);
   array = stockageTemporay;
   createElement(array);
   setIngredients(array);
   list(array);
-  console.timeEnd()
+  [...document.querySelectorAll(".fa-times-circle")].forEach((cross, key) => cross.addEventListener("click", () => removeTag(key, historySearch)));
 };
 
+ELEMENTHTML.inputIngredient.addEventListener("click", () => {
+  if (!ELEMENTHTML.mainSearch.value) {
+    list(copyRecipes);
+  }
+});
 
-  ELEMENTHTML.inputIngredient.addEventListener("click", () => {
-    if(!ELEMENTHTML.mainSearch.value){
-      list(arr)
-    }
-  })
+
+
