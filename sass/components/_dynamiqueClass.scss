@@ -1,0 +1,67 @@
+.no-result {
+  font-size: 28px;
+  margin-top: 100px;
+}
+.list-food{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-ingredient {
+  @include size-container(225px, auto);
+  background-color: $input_ingredient;
+  color: white;
+  display: none;
+  font-size: 18px;
+  padding: 25px;
+  cursor: pointer;
+  &:hover{
+        background-color: lighten($color: $input_ingredient, $amount: 2%);
+  }
+}
+
+.list-appliance {
+  @include size-container(500px, auto);
+  display: none;
+  background-color: $input-appliance;
+  color: white;
+  font-size: 18px;
+  padding: 25px;
+  cursor: pointer;
+  &:hover{
+        background-color: lighten($color: $input-appliance, $amount: 2%);
+  }
+}
+
+.list-ustencil {
+  @include size-container(500px, auto);
+  color: white;
+  display: none;
+  background-color: $input-ustensils;
+  font-size: 18px;
+  padding: 25px ;
+  cursor: pointer;
+  &:hover{
+        background-color: lighten($color: $input-ustensils, $amount: 2%);
+  }
+
+}
+
+.blueTag {
+  background-color: $input_ingredient;
+}
+
+.greenTag {
+  background-color: $input-appliance;
+}
+
+.redTag {
+  background-color: $input-ustensils;
+}
+
+
+
+.animLogo {
+  animation: anim 0.1s forwards;
+}
+
