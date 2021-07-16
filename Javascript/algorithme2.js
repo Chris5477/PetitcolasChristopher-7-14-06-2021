@@ -36,7 +36,7 @@ export const searchByMainInput = (e) => {
 
   createElement(recipeFilter);
   setIngredients(recipeFilter);
-  list(recipeFilter);
+  createList(recipeFilter);
 };
 
 export const createList = (array) => {
@@ -106,13 +106,13 @@ const stepRecipeFiltered = (tag, array) => {
   array = stockageTemporay;
   createElement(array);
   setIngredients(array);
-  list(array);
+  createList(array);
   [...document.querySelectorAll(".fa-times-circle")].forEach((cross, key) => cross.addEventListener("click", () => removeTag(key, historySearch)));
 };
 
 ELEMENTHTML.inputIngredient.addEventListener("click", () => {
   if (!ELEMENTHTML.mainSearch.value) {
-    list(copyRecipes);
+    createList(copyRecipes);
   }
 });
 
