@@ -14,6 +14,8 @@ export const searchByMainInput = (e) => {
   const inputUser = e.target.value.toLowerCase();
 
   if (inputUser.length < 3) {
+    recipeFilter = []
+    idRecipe = []
     return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
   }
 
@@ -60,7 +62,7 @@ const showList = (array) => {
  const filteredList = (e) => {
   let inputUser = e.target.value.toLowerCase();
   [...document.querySelectorAll("li")].forEach((el) => {
-    if (!el.innerHTML.includes(inputUser)) {
+    if (inputUser.length >= 3 && !el.innerHTML.includes(inputUser)) {
       el.style.display = "none";
     }
   });
