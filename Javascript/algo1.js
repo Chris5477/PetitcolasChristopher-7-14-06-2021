@@ -12,9 +12,9 @@ let historySearch = [];
 
 export const searchByMainInput = (e) => {
   const inputUser = e.target.value.toLowerCase();
+  recipeFilter = [];
 
   if (inputUser.length < 3) {
-    recipeFilter = [];
     idRecipe = [];
     return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
   }
@@ -25,6 +25,7 @@ export const searchByMainInput = (e) => {
       recipeFilter.push(recipe);
     }
   }
+
 
   for (let j = 0; j < recipeFilter.length; j++) {
     const idOfRecipe = recipeFilter[j].id;
