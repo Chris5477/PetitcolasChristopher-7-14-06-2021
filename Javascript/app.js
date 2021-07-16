@@ -6,4 +6,4 @@ import { searchByMainInput } from "./algo1.js"
 createElement(recipes)
 setIngredients(recipes)
 
-ELEMENTHTML.mainSearch.addEventListener("change" , (e) => searchByMainInput(e))
+ELEMENTHTML.mainSearch.addEventListener("input" , (e) => searchByMainInput(e))
