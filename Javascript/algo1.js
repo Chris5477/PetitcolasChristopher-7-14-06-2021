@@ -149,14 +149,12 @@ const stepRecipeFiltered = (tag, array) => {
   for (let recipe = 0; recipe < array.length; recipe++) {
     for (let food = 0; food < array[recipe].ingredients.length; food++) {
       const ingredient = array[recipe].ingredients[food].ingredient.toLowerCase();
-      console.log(ingredient);
       if (ingredient.includes(tag.toLowerCase())) {
         stockageTemporay.push(array[recipe]);
       }
     }
 
     const appliance = array[recipe].appliance.toLowerCase();
-    console.log(appliance);
     if (appliance.includes(tag.toLowerCase())) {
       stockageTemporay.push(array[recipe]);
     }
