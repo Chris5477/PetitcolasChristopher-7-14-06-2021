@@ -34,6 +34,10 @@ export const searchByMainInput = (e) => {
     }
   }
 
+  if(recipeFilter.length === 0){
+    return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
+  }
+
   createElement(recipeFilter);
   setIngredients(recipeFilter);
   createList(recipeFilter);
