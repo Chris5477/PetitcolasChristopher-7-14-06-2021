@@ -3,15 +3,8 @@ body {
   height: 100vh;
   padding: 0;
   margin: 0 auto;
-  font-family: "crimsonbold";
 }
 
-@font-face {
-  font-family: "crimsonbold";
-  src: url("../police/crimson-bold-webfont.woff2") format("woff2"), url("../police/crimson-bold-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
 .title-section {
   display: none;
 }
@@ -181,11 +174,10 @@ li {
   margin: 20px 0;
 }
 .card_recipe .picture_recipe {
-  display: block;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
   background-color: #c7bebe;
   grid-area: 1/1/2/3;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 .card_recipe .head_card {
   grid-area: 2/1/3/3;
@@ -198,6 +190,7 @@ li {
 }
 .card_recipe .head_card h2 {
   font-size: 18px;
+  font-weight: normal;
 }
 .card_recipe .description_recipe {
   grid-area: 3/1/4/3;
@@ -213,9 +206,12 @@ li {
   line-height: 15px;
 }
 .card_recipe .description_recipe .list_ingredients > p {
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
-  padding: 0 15px;
+  padding-left: 15px;
+}
+.card_recipe .description_recipe .list_ingredients > p .weight {
+  font-weight: 600;
 }
 .card_recipe .description_recipe .make_recipe {
   width: 50%;
