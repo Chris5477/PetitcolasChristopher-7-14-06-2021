@@ -13,7 +13,7 @@ export const createElement = (array) => {
   for (const element of array) {
     ELEMENTHTML.containerRecipe.innerHTML += `
       <article class="card_recipe">
-        <img class="picture_recipe" src="." alt="Image indisponible" />
+        <div class="picture_recipe"></div>
         <div class="head_card">
           <h2>${element.name}</h2>
           <span class="time"><span class="far fa-clock"> ${element.time} min</span></span>
@@ -39,19 +39,21 @@ export const setIngredients = (array) => {
       // Vérification pour afficher les ingredients avec quantité , ou unité
       // Si la valeur a la clé unit , alors on affiche la 'unité
       if (item.hasOwnProperty("unit")) {
-        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} : ${item.quantity} ${item.unit}</p>`;
+        containerIngredients[key].innerHTML += `<p class="ingredient"><span class="weight">${item.ingredient}</span> : ${item.quantity} ${item.unit}</p>`;
         // Si la quantité n'est pas définit , alors on affiche que l'ingredient
       } else if (item.quantity == undefined) {
-        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient}</p>`;
+        containerIngredients[key].innerHTML += `<p class="ingredient"><span class="weight">${item.ingredient}</span></p>`;
         // sinon on affiche que l'ingredient et sa quantité
       } else {
-        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} : ${item.quantity}</p>`;
+        containerIngredients[key].innerHTML += `<p class="ingredient"><span class="weight">${item.ingredient}</span>: ${item.quantity}</p>`;
       }
     });
   }
 };
 
+//Fonction qui permet de définir la couleur de fond du tag
 export const setTypeTag = (elementLi, css) => {
+  // en fonctions si elementLi contient la classe indiqué affiche sa couleur
   if (elementLi.classList.contains("ing")) {
     return (css = "blueTag");
   } else if (elementLi.classList.contains("object")) {
@@ -61,36 +63,46 @@ export const setTypeTag = (elementLi, css) => {
   }
 };
 
+//Fonction qui permet de supprimer un tag
 export const removeTag = (key, array) => {
+  //on demande de faire une supression de tag tant que chaque tag est superieur a l index de l icone sur la quelle il y a eu le clique
   do {
     [...document.querySelectorAll(".tag")][key].remove();
   } while ([...document.querySelectorAll(".tag")].length > key);
 
+  // Et on appelle l array (historySearch non disponible sur ce module) pour afficher un des resultats des recherches précédentes
   createElement(array[key]);
   setIngredients(array[key]);
   createList(array[key]);
+  // suppresion des tags de l array
   array.splice(key);
 };
 
-
-export const displayIngredient = () => {
-  displayList(ELEMENTHTML.listFood, 0, ELEMENTHTML.inputIngredient, "box-ingredient")
-  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
-  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
-}
-
-export const displayAppliance = () => {
-  displayList(ELEMENTHTML.listItem, 1, ELEMENTHTML.inputAppliance, "box-appliance")
-  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
-  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
-}
-
-export const displayUstencil = () => {
+ 
+ //Fonction qui permet de donner du style a une liste et supprimer ceux des autres des autres listes
+ export const displayIngredient = () => {
+   ELEMENTHTML.inputIngredient.placeholder = "Recherchez un ingredient";
+   displayList(ELEMENTHTML.listFood, 0, ELEMENTHTML.inputIngredient, "box-ingredient")
+   hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance", 'Appareil')
+   hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil", "Ustensiles")
+  }
+  // pareil que la fonction préc"dente
+  export const displayAppliance = () => {
+    ELEMENTHTML.inputAppliance.placeholder = "Recherchez un appareil";
+    displayList(ELEMENTHTML.listItem, 1, ELEMENTHTML.inputAppliance, "box-appliance")
+    hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient", "Ingredient")
+    hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil", "UStensiles")
+  }
+  
+  //pareil que la fonction précédente
+  export const displayUstencil = () => {
+  ELEMENTHTML.inputUstencil.placeholder="Recherchez un ustensile"
   displayList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
-  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
-  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
+  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient", "Ingredient")
+  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance", "Appareil")
 }
 
+//permet d'afficher le style d'une liste
  const displayList = (element, index, input, cssClass) => {
   element.style.display="flex"
   ELEMENTHTML.box[index].classList.add(cssClass)
@@ -98,18 +110,20 @@ export const displayUstencil = () => {
   input.classList.add("size-input")
 
 }
-
- const hiddenList = (element, index, input, cssclass) => {
+//permet de retirer le styles des autres listes
+ const hiddenList = (element, index, input, cssclass, placeholder) => {
 element.style.display ="none"
 input.classList.remove("size-input")
 ELEMENTHTML.logoArraow[index].classList.remove("animLogo")
 ELEMENTHTML.box[index].classList.remove(cssclass)
+input.placeholder=placeholder
 }
 
+// permet de retirer le style de toutee les listes
 export const hiddenAllList = () => {
-  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
-  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
-  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
+  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient", "Ingredient")
+  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance", "Appareil")
+  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil","Ustensiles")
 }
 
 
