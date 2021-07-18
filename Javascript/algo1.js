@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients, setTypeTag, removeTag } from "./function.js";
+import { createElement, setIngredients, setTypeTag, removeTag, displayIngredient, displayAppliance, displayUstencil, hiddenAllList } from "./function.js";
 import { recipes } from "./recipe.js";
 export let copyRecipes = recipes;
 
@@ -121,6 +121,10 @@ const showList = (array) => {
     ELEMENTHTML.listUStencil.innerHTML += `<li class="list-ustencil ustencil">${ustencil}</li>`;
   }
   choiceInList(array);
+  ELEMENTHTML.box[0].addEventListener("click", displayIngredient);
+  ELEMENTHTML.box[1].addEventListener("click", displayAppliance);
+  ELEMENTHTML.box[2].addEventListener("click", displayUstencil);
+  document.body.addEventListener("click", hiddenAllList, true)
   ELEMENTHTML.inputIngredient.addEventListener("input", (e) => filteredList(e));
   ELEMENTHTML.inputAppliance.addEventListener("input", (e) => filteredList(e));
   ELEMENTHTML.inputUstencil.addEventListener("input", (e) => filteredList(e));
@@ -181,7 +185,19 @@ const stepRecipeFiltered = (tag, array) => {
 };
 
 ELEMENTHTML.inputIngredient.addEventListener("click", () => {
-  if (!ELEMENTHTML.mainSearch.value) {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
+    createList(copyRecipes);
+  }
+});
+
+ELEMENTHTML.inputAppliance.addEventListener("click", () => {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
+    createList(copyRecipes);
+  }
+});
+
+ELEMENTHTML.inputUstencil.addEventListener("click", () => {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
     createList(copyRecipes);
   }
 });
