@@ -16,7 +16,7 @@ export const createElement = (array) => {
         <img class="picture_recipe" src="." alt="Image indisponible" />
         <div class="head_card">
           <h2>${element.name}</h2>
-          <span class="time">${element.time}<span class="far fa-clock"></span></span>
+          <span class="time"><span class="far fa-clock"> ${element.time} min</span></span>
         </div>
         <div class="description_recipe">
           <div class="list_ingredients"></div>
@@ -39,13 +39,13 @@ export const setIngredients = (array) => {
       // Vérification pour afficher les ingredients avec quantité , ou unité
       // Si la valeur a la clé unit , alors on affiche la 'unité
       if (item.hasOwnProperty("unit")) {
-        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} ${item.quantity} ${item.unit}</p>`;
+        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} : ${item.quantity} ${item.unit}</p>`;
         // Si la quantité n'est pas définit , alors on affiche que l'ingredient
       } else if (item.quantity == undefined) {
         containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient}</p>`;
         // sinon on affiche que l'ingredient et sa quantité
       } else {
-        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} ${item.quantity}</p>`;
+        containerIngredients[key].innerHTML += `<p class="ingredient">${item.ingredient} : ${item.quantity}</p>`;
       }
     });
   }
@@ -71,3 +71,46 @@ export const removeTag = (key, array) => {
   createList(array[key]);
   array.splice(key);
 };
+
+
+export const displayIngredient = () => {
+  displayList(ELEMENTHTML.listFood, 0, ELEMENTHTML.inputIngredient, "box-ingredient")
+  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
+  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
+}
+
+export const displayAppliance = () => {
+  displayList(ELEMENTHTML.listItem, 1, ELEMENTHTML.inputAppliance, "box-appliance")
+  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
+  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
+}
+
+export const displayUstencil = () => {
+  displayList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
+  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
+  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
+}
+
+ const displayList = (element, index, input, cssClass) => {
+  element.style.display="flex"
+  ELEMENTHTML.box[index].classList.add(cssClass)
+  ELEMENTHTML.logoArraow[index].classList.add("animLogo")
+  input.classList.add("size-input")
+
+}
+
+ const hiddenList = (element, index, input, cssclass) => {
+element.style.display ="none"
+input.classList.remove("size-input")
+ELEMENTHTML.logoArraow[index].classList.remove("animLogo")
+ELEMENTHTML.box[index].classList.remove(cssclass)
+}
+
+export const hiddenAllList = () => {
+  hiddenList(ELEMENTHTML.listFood,0,ELEMENTHTML.inputIngredient, "box-ingredient")
+  hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance")
+  hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil")
+}
+
+
+

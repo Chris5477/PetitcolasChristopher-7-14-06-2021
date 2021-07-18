@@ -1,5 +1,5 @@
 import { ELEMENTHTML } from "./constant.js";
-import { createElement, setIngredients, setTypeTag, removeTag } from "./function.js";
+import { createElement, setIngredients, setTypeTag, removeTag, displayIngredient, displayAppliance, displayUstencil, hiddenAllList } from "./function.js";
 import { recipes } from "./recipe.js";
 export let copyRecipes = recipes;
 
@@ -14,8 +14,8 @@ export const searchByMainInput = (e) => {
   const inputUser = e.target.value.toLowerCase();
 
   if (inputUser.length < 3) {
-    recipeFilter = []
-    idRecipe = []
+    recipeFilter = [];
+    idRecipe = [];
     return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
   }
 
@@ -34,7 +34,7 @@ export const searchByMainInput = (e) => {
     }
   }
 
-  if(recipeFilter.length === 0){
+  if (recipeFilter.length === 0) {
     return (ELEMENTHTML.containerRecipe.innerHTML = `<p class="no-result">Aucune recette ne correspond à votre critère ... vous pouvez chercher tarte au pomme ou poisson par exemple</p>`);
   }
 
@@ -58,12 +58,16 @@ const showList = (array) => {
   ELEMENTHTML.listItem.innerHTML = `${allAppliances.map((appliance) => `<li class="list-appliance object">${appliance}</li>`).join("")}`;
   ELEMENTHTML.listUStencil.innerHTML = `${allUstensils.map((ustensil) => `<li class="list-ustencil ustencil">${ustensil}</li>`).join("")}`;
   choiceInList(array);
+  ELEMENTHTML.box[0].addEventListener("click", displayIngredient);
+  ELEMENTHTML.box[1].addEventListener("click", displayAppliance);
+  ELEMENTHTML.box[2].addEventListener("click", displayUstencil);
+  document.body.addEventListener("click", hiddenAllList, true)
   ELEMENTHTML.inputIngredient.addEventListener("input", (e) => filteredList(e));
   ELEMENTHTML.inputAppliance.addEventListener("input", (e) => filteredList(e));
   ELEMENTHTML.inputUstencil.addEventListener("input", (e) => filteredList(e));
 };
 
- const filteredList = (e) => {
+const filteredList = (e) => {
   let inputUser = e.target.value.toLowerCase();
   [...document.querySelectorAll("li")].forEach((el) => {
     if (inputUser.length >= 3 && !el.innerHTML.includes(inputUser)) {
@@ -115,10 +119,19 @@ const stepRecipeFiltered = (tag, array) => {
 };
 
 ELEMENTHTML.inputIngredient.addEventListener("click", () => {
-  if (!ELEMENTHTML.mainSearch.value) {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
     createList(copyRecipes);
   }
 });
 
+ELEMENTHTML.inputAppliance.addEventListener("click", () => {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
+    createList(copyRecipes);
+  }
+});
 
-
+ELEMENTHTML.inputUstencil.addEventListener("click", () => {
+  if (!ELEMENTHTML.mainSearch.value && !ELEMENTHTML.allTags.innerHTML) {
+    createList(copyRecipes);
+  }
+});
