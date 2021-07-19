@@ -26,8 +26,27 @@ export const createElement = (array) => {
         </div>
       </article>`;
   }
-};
-
+       //Appelle de la fonction qui ajoutera une ellispe si le texte de la recette depasse la hauteur maximale de son parent
+       ellipsis()
+      };
+      
+      // Fonction qui permet de rajouter une éliipse si plus grand que parent
+      const ellipsis = () => {
+        // Ciblage de tous les conteneurs de recettes
+        const cookingRecipe = [...document.querySelectorAll(".description_recipe")]
+        // pour chacun d'entre eux
+        cookingRecipe.forEach(recipe => {
+          // ciblage de leur texte de rectte
+            const textRecipe = recipe.querySelector(".instructions")
+            // tant que le parent a moins de pixel en hauteur que le texte
+            while(recipe.clientHeight < textRecipe.clientHeight){
+              // on remplace le dernier mot de textRecipe avant depassement du parent par ... , 
+               textRecipe.textContent = textRecipe.textContent.replace(/\W*\s(\S)*$/, "...")
+        
+            }
+        })
+      }
+      
 // Fonction qui permet de définir les ingredients dans les cartes de recette
 export const setIngredients = (array) => {
   //Cibalge des éléments li créées avec la fonction createElement
