@@ -12,26 +12,44 @@ export const createElement = (array) => {
   // Création des éléments avec une boucles pour injecter les données
   for (const element of array) {
     ELEMENTHTML.containerRecipe.innerHTML += `
-      <article class="card_recipe">
-        <div class="picture_recipe"></div>
-        <div class="head_card">
+    <article class="card_recipe">
+    <div class="picture_recipe"></div>
+    <div class="head_card">
           <h2>${element.name}</h2>
           <span class="time"><span class="far fa-clock"> ${element.time} min</span></span>
-        </div>
+          </div>
         <div class="description_recipe">
-          <div class="list_ingredients"></div>
-          <div class="make_recipe">
+        <div class="list_ingredients"></div>
+        <div class="make_recipe">
           <p class="instructions">${element.description}</p>
           </div>
-        </div>
-      </article>`;
-  }
-};
-
-// Fonction qui permet de définir les ingredients dans les cartes de recette
-export const setIngredients = (array) => {
-  //Cibalge des éléments li créées avec la fonction createElement
-  const containerIngredients = [...document.querySelectorAll(".list_ingredients")];
+          </div>
+          </article>`;
+        }
+        //Appelle de la fonction qui ajoutera une ellispe si le texte de la recette depasse la hauteur maximale de son parent
+        ellipsis()
+      };
+      
+      // Fonction qui permet de rajouter une éliipse si plus grand que parent
+      const ellipsis = () => {
+        // Ciblage de tous les conteneurs de recettes
+        const cookingRecipe = [...document.querySelectorAll(".description_recipe")]
+        // pour chacun d'entre eux
+        cookingRecipe.forEach(recipe => {
+          // ciblage de leur texte de rectte
+            const textRecipe = recipe.querySelector(".instructions")
+            // tant que le parent a moins de pixel en hauteur que le texte
+            while(recipe.clientHeight < textRecipe.clientHeight){
+              // on remplace le dernier mot de textRecipe avant depassement du parent par ... , 
+               textRecipe.textContent = textRecipe.textContent.replace(/\W*\s(\S)*$/, "...")
+        
+            }
+        })
+      }
+      // Fonction qui permet de définir les ingredients dans les cartes de recette
+      export const setIngredients = (array) => {
+        //Cibalge des éléments li créées avec la fonction createElement
+        const containerIngredients = [...document.querySelectorAll(".list_ingredients")];
   //Pour chacune des valeurs du tableau , on injecte les données
   for (const key in array) {
     const ingredients = array[key].ingredients;
@@ -69,7 +87,7 @@ export const removeTag = (key, array) => {
   do {
     [...document.querySelectorAll(".tag")][key].remove();
   } while ([...document.querySelectorAll(".tag")].length > key);
-
+  
   // Et on appelle l array (historySearch non disponible sur ce module) pour afficher un des resultats des recherches précédentes
   createElement(array[key]);
   setIngredients(array[key]);
@@ -78,8 +96,8 @@ export const removeTag = (key, array) => {
   array.splice(key);
 };
 
- 
- //Fonction qui permet de donner du style a une liste et supprimer ceux des autres des autres listes
+
+//Fonction qui permet de donner du style a une liste et supprimer ceux des autres des autres listes
  export const displayIngredient = () => {
    ELEMENTHTML.inputIngredient.placeholder = "Recherchez un ingredient";
    displayList(ELEMENTHTML.listFood, 0, ELEMENTHTML.inputIngredient, "box-ingredient")
@@ -125,6 +143,5 @@ export const hiddenAllList = () => {
   hiddenList(ELEMENTHTML.listItem,1,ELEMENTHTML.inputAppliance, "box-appliance", "Appareil")
   hiddenList(ELEMENTHTML.listUStencil, 2, ELEMENTHTML.inputUstencil, "box-ustencil","Ustensiles")
 }
-
 
 
